@@ -1,11 +1,49 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="kr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Index</title>
+    <style></style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+        $(function () {
+            axios.get('https://lor.mobalytics.gg/api/v1/meta/tier-list', {
+            })
+                .then(function (response) {
+                    let archetypes = response.data.archetypes
+                    //console.log(archetypes);
+                    let numStr = "";
+                    let codeList = new Array;
+                    archetypes.forEach(function (element, index) {
+                        let num = index + 1;
+                        let code = {};
+                        if (num < 10) {
+                            numStr = "0" + num;
+                        } else {
+                            numStr = num + "";
+                        }
+                        code.title = numStr + "." + element.title;
+                        code.code = element.mostPopularDeck.exportUID;
+
+                        codeList.push(code);
+                    });
+                    console.log(codeList);
+                })
+                .catch(function (error) {
+                    console.log(error);
+                })
+                .finally(function () {
+                    // always executed
+                });
+        })
+    </script>
 </head>
+
 <body>
     test
 </body>
+
 </html>
